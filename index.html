@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#3366ff" />
+    <meta name="description" content="画像やカメラから色を確認・比較できる色判定アプリ" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="ColorHelper" />
+    <title>ColorHelper</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+    <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="module" src="./app.mjs"></script>
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">色の確認と比較を、わかりやすく</p>
+        <h1>ColorHelper</h1>
+      </div>
+      <span class="status-pill">端末内で処理</span>
+    </header>
+
+    <main class="layout">
+      <section class="card selected-card" aria-labelledby="selected-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">現在の色</p>
+            <h2 id="selected-title">選択中の色</h2>
+          </div>
+          <strong id="preview-hex" class="large-hex">#3366FF</strong>
+        </div>
+
+        <div id="color-preview" class="color-preview" aria-label="選択中の色プレビュー">
+          <span>選択中</span>
+        </div>
+
+        <div class="input-grid">
+          <label class="field">
+            <span>色を選ぶ</span>
+            <input id="color-picker" type="color" value="#3366ff" />
+          </label>
+          <label class="field">
+            <span>HEX を入力</span>
+            <input id="hex-input" type="text" value="#3366FF" maxlength="7" spellcheck="false" />
+            <small id="hex-error" class="error" hidden>6桁のHEXカラーを入力してください</small>
+          </label>
+        </div>
+
+        <dl class="value-list">
+          <div><dt>HEX</dt><dd id="hex-value">#3366FF</dd></div>
+          <div><dt>RGB</dt><dd id="rgb-value">51, 102, 255</dd></div>
+          <div><dt>HSB</dt><dd id="hsb-value">225°, 80%, 100%</dd></div>
+        </dl>
+
+        <button id="copy-button" class="button primary" type="button">HEX をコピー</button>
+
+        <div class="recent-block">
+          <h3>最近使った色</h3>
+          <div id="recent-colors" class="recent-colors" aria-label="最近使った色"></div>
+        </div>
+      </section>
+
+      <div class="tools">
+        <section class="card" aria-labelledby="image-title">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">画像から調べる</p>
+              <h2 id="image-title">画像の色を取得・比較</h2>
+            </div>
+            <label class="button secondary file-button">
+              画像を選ぶ
+              <input id="image-input" type="file" accept="image/*" />
+            </label>
+          </div>
+
+          <p class="help">画像をタップすると選択中の点へ色を記録します。A と B を切り替えて2色を比較できます。</p>
+
+          <div class="segmented" role="group" aria-label="記録する比較点">
+            <button class="point-mode active" data-point="a" type="button">点 A に記録</button>
+            <button class="point-mode" data-point="b" type="button">点 B に記録</button>
+          </div>
+
+          <div id="image-stage" class="image-stage">
+            <canvas id="image-canvas" aria-label="読み込んだ画像。タップして色を取得"></canvas>
+            <p id="image-placeholder">画像を選ぶと、ここで色を調べられます</p>
+          </div>
+
+          <div class="sample-grid">
+            <article id="sample-a" class="sample-card empty">
+              <div class="sample-swatch"></div>
+              <div><span>点 A</span><strong>未選択</strong></div>
+              <button type="button" disabled>選択色に使う</button>
+            </article>
+            <article id="sample-b" class="sample-card empty">
+              <div class="sample-swatch"></div>
+              <div><span>点 B</span><strong>未選択</strong></div>
+              <button type="button" disabled>選択色に使う</button>
+            </article>
+          </div>
+          <div id="image-comparison"></div>
+        </section>
+
+        <section class="card" aria-labelledby="camera-title">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">実物から調べる</p>
+              <h2 id="camera-title">カメラ中央の色</h2>
+            </div>
+            <button id="camera-toggle" class="button secondary" type="button">開始</button>
+          </div>
+
+          <div class="camera-stage">
+            <video id="camera-video" playsinline muted></video>
+            <canvas id="camera-canvas"></canvas>
+            <div class="target" aria-hidden="true"></div>
+            <p id="camera-message">カメラを開始して中央の色をサンプリングします。</p>
+          </div>
+          <p id="camera-error" class="error" hidden></p>
+          <div id="camera-comparison"></div>
+        </section>
+      </div>
+    </main>
+
+    <footer>画像・カメラ映像はアップロードされず、ブラウザ内でのみ処理されます。</footer>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "ColorHelper",
+  "short_name": "ColorHelper",
+  "description": "画像やカメラから色を確認・比較できる色判定アプリ",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0f1420",
+  "theme_color": "#3366ff",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

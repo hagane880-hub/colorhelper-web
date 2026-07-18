@@ -1,0 +1,13 @@
+{
+  "name": "color-helper-web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "cert": "sh scripts/generate-local-cert.sh",
+    "dev": "python3 -m http.server 4173",
+    "dev:https": "node server.mjs",
+    "icons": "node scripts/generate-icons.mjs",
+    "test": "node --test"
+  }
+}
